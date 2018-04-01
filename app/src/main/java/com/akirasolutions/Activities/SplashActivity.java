@@ -32,67 +32,17 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         ConfigScreen cfg = new ConfigScreen();
         cfg.setConfig(context, R.layout.splashinitial);
+        cfg.setMain(context);
 
         SharedPreferences mode = getSharedPreferences("PREFERENCES", Context.MODE_PRIVATE);
         final int modo = mode.getInt("mode", 0);
-        String mac=mode.getString("VERSION","NULL");
-
-
-
+        String version=mode.getString("VERSION","NULL");
+        String language=mode.getString("IDIOMA","NULL");
 
         SharedPreferences.Editor editor = mode.edit();
-        if(modo==0||modo==1) {
-            editor.putInt("mode", 1);
-            editor.commit();
-            //salto a la configuración principal
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+        editor.putInt("mode", 1);
+        editor.commit();
 
-
-                    try {
-                        Intent nextIntent = new Intent().setClass(SplashActivity.this, MainActivity.class);
-
-
-                        startActivity(nextIntent);
-
-                    } catch (Exception e) {
-                    }
-
-                    // finish();
-                }
-            }, SPLASH_SCREEN_DELAY);
-        }else{
-
-            editor.putInt("mode", 2);
-            editor.commit();
-            if(mac.equals("NULL")){//Salto al escaner de bluetooth
-                try {
-                    Intent nextIntent = new Intent().setClass(SplashActivity.this, MainActivity.class);
-                    startActivity(nextIntent);
-
-                } catch (Exception e) {
-                }
-            }else {
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-
-                        try {//Salto a la pantalla principal
-                            Intent nextIntent = new Intent().setClass(SplashActivity.this, MainActivity.class);
-                            startActivity(nextIntent);
-
-                        } catch (Exception e) {
-                        }
-
-                        // finish();
-                    }
-                }, SPLASH_SCREEN_DELAY);
-            }
-
-        }
 
     }
 
